@@ -57,6 +57,12 @@ var auth = Auth(config);
 var username = commander.args[0];
 var password = genRandomPassword();
 
+// set htpass plugin's maxusers to infinity
+var p = auth.plugins[1];
+if (p && '_maxusers' in p) {
+  p['_maxusers'] = Infinity;
+}
+
 auth.add_user(username, password, function (err) {
   if (err) {
     return console.error(err.message);
