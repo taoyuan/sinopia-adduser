@@ -28,7 +28,7 @@ function genRandomPassword(len) {
 // Config
 logger.setup();
 commander
-  .usage("[options] <username>")
+  .usage("[options] <username> [<password>]")
   .option('-c, --config <config.yaml>', 'use this configuration file (default: ./config.yaml)')
   .parse(process.argv)
 
@@ -49,13 +49,13 @@ if (!config.self_path) {
 }
 
 // Add user
-if (commander.args.length != 1) {
+if (commander.args.length < 1 || commander.args.length > 2) {
   commander.help();
 }
 
 var auth = Auth(config);
 var username = commander.args[0];
-var password = genRandomPassword();
+var password = commander.args[1] || genRandomPassword();
 
 // set htpass plugin's maxusers to infinity
 var p = auth.plugins[1];
